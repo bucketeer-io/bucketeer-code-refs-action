@@ -34,7 +34,8 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y \
     git \
     ca-certificates \
-    bash
+    bash \
+    && update-ca-certificates
 
 COPY --from=builder /build/bucketeer-find-code-refs-github-action \
     /usr/local/bin/bucketeer-find-code-refs-github-action
