@@ -45,7 +45,6 @@ jobs:
           accessToken: ${{ secrets.BUCKETEER_ACCESS_TOKEN || 'test' }}
           debug: true
           dryRun: true
-        continue-on-error: true
 
       - name: Verify action structure
         run: |
