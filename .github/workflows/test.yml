@@ -42,27 +42,11 @@ jobs:
       - name: Test Action (Dry Run)
         uses: ./
         with:
-          accessToken: ${{ secrets.BUCKETEER_ACCESS_TOKEN || 'test' }}
+          accessToken: ${{ secrets.BUCKETEER_ACCESS_TOKEN }}
+          baseUri: ${{ secrets.BUCKETEER_BASE_URI }}
           debug: true
           dryRun: true
 
-      - name: Verify action structure
-        run: |
-          echo "Action structure verified"
-          echo "Files present:"
-          ls -la
-
-          echo ""
-          echo "action.yml content:"
-          head -20 action.yml
-
-          echo ""
-          echo "Dockerfile present:"
-          test -f Dockerfile && echo "Dockerfile exists"
-
-          echo ""
-          echo "Entrypoint present:"
-          test -f entrypoint.sh && echo "entrypoint.sh exists"
 
   lint-yaml:
     runs-on: ubuntu-latest

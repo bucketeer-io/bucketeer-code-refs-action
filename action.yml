@@ -15,7 +15,7 @@ inputs:
   baseUri:
     description: 'Bucketeer API base URI'
     required: false
-    default: 'https://api.bucketeer.io'
+    default: ''
 
   contextLines:
     description: 'Number of context lines (0-5, or -1 for no source code)'
