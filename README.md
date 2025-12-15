@@ -46,20 +46,49 @@ You can create an API token in your Bucketeer dashboard under **Settings** → *
 | Input | Description | Required | Default |
 | ----- | ----------- | -------- | ------- |
 | `accessToken` | Bucketeer API access token with write permissions | ✅ Yes | - |
-| `baseUri` | Bucketeer API base URI | ❌ No | `https://api.bucketeer.io` |
-| `contextLines` | Number of context lines to include (0-5, or -1 for no source code) | ❌ No | `2` |
+| `baseUri` | Bucketeer API base URI | ❌ No | `` |
+| `contextLines` | Number of context lines (0-5, or -1 for no source code) | ❌ No | `2` |
 | `debug` | Enable verbose debug logging | ❌ No | `false` |
-| `allowTags` | Enable scanning of git tags (lists tags as branches) | ❌ No | `false` |
+| `allowTags` | Allow scanning of tags (lists tags as branches) | ❌ No | `false` |
 | `ignoreServiceErrors` | Exit with code 0 when Bucketeer API is unreachable | ❌ No | `false` |
 | `defaultBranch` | Default branch name | ❌ No | `main` |
 | `dir` | Subdirectory to scan (for monorepos) | ❌ No | `` |
 | `dryRun` | Run without sending data to Bucketeer | ❌ No | `false` |
 
-Repository name, branch, and commit information are automatically extracted from the GitHub Actions environment.
+**Note**: The action scans the branch that triggered the workflow. Configure triggers in the `on:` section to control which branches are scanned.
 
 ## How It Works
 
 The action scans your repository for feature flag references by analyzing code patterns such as `variation('my-flag')`, `getBooleanValue('my-flag')`, and similar SDK method calls. It supports multiple programming languages including JavaScript, TypeScript, Python, Go, Java, Ruby, and others.
+
+## Branch Configuration
+
+**Important**: This action scans only the branch that triggers the workflow.
+
+### Scan specific branches
+
+```yaml
+on:
+  push:
+    branches: [main, develop]  # Only these branches
+```
+
+### Scan all branches
+
+```yaml
+on:
+  push:
+    branches: ['**']  # All branches
+```
+
+### Scan pull requests
+
+```yaml
+on:
+  pull_request:  # Scan PR head branches
+```
+
+**Tip**: Use `branches: ['**']` for comprehensive coverage, or specify only production branches to reduce noise.
 
 ## Common Issues
 
