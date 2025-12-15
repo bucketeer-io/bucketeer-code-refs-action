@@ -59,7 +59,7 @@ You can create an API token in your Bucketeer dashboard under **Settings** → *
 
 ## How It Works
 
-The action scans your repository for feature flag references by analyzing code patterns such as `variation('my-flag')`, `getBooleanValue('my-flag')`, and similar SDK method calls. It supports multiple programming languages including JavaScript, TypeScript, Python, Go, Java, Ruby, and others.
+The action scans your repository for feature flag references by analyzing code patterns such as `variation('my-flag')`, `getBooleanValue('my-flag')`, and similar SDK method calls.
 
 ## Branch Configuration
 
