@@ -8,14 +8,13 @@ branding:
   color: 'blue'
 
 inputs:
-  accessToken:
-    description: 'Bucketeer API access token with write permissions'
+  apiKey:
+    description: 'Bucketeer API Key with write permissions'
     required: true
 
-  baseUri:
-    description: 'Bucketeer API base URI'
-    required: false
-    default: ''
+  apiEndpoint:
+    description: 'Bucketeer API endpoint URI'
+    required: true
 
   contextLines:
     description: 'Number of context lines (0-5, or -1 for no source code)'
@@ -56,12 +55,12 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    BUCKETEER_ACCESS_TOKEN: ${{ inputs.accessToken }}
-    BUCKETEER_BASE_URI: ${{ inputs.baseUri }}
+    BUCKETEER_API_KEY: ${{ inputs.apiKey }}
+    BUCKETEER_API_ENDPOINT: ${{ inputs.apiEndpoint }}
     BUCKETEER_CONTEXT_LINES: ${{ inputs.contextLines }}
     BUCKETEER_DEBUG: ${{ inputs.debug }}
     BUCKETEER_ALLOW_TAGS: ${{ inputs.allowTags }}
     BUCKETEER_IGNORE_SERVICE_ERRORS: ${{ inputs.ignoreServiceErrors }}
     BUCKETEER_DEFAULT_BRANCH: ${{ inputs.defaultBranch }}
-    BUCKETEER_DIR: ${{ inputs.dir }}
+    BUCKETEER_SUBDIRECTORY: ${{ inputs.dir }}
     BUCKETEER_DRY_RUN: ${{ inputs.dryRun }}

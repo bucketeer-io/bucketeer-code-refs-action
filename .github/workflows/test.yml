@@ -40,8 +40,8 @@ jobs:
       - name: Test Action (Dry Run)
         uses: ./
         with:
-          accessToken: ${{ secrets.BUCKETEER_ACCESS_TOKEN }}
-          baseUri: ${{ secrets.BUCKETEER_BASE_URI }}
+          apiKey: ${{ secrets.BUCKETEER_ACCESS_TOKEN }}
+          apiEndpoint: ${{ secrets.BUCKETEER_BASE_URI }}
           debug: true
           dryRun: true
 

@@ -27,17 +27,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Find Code References
-        uses: bucketeer-io/bucketeer-code-refs-action@v1
+        uses: bucketeer-io/bucketeer-code-refs-action@v2
         with:
-          accessToken: ${{ secrets.BUCKETEER_ACCESS_TOKEN }}
+          apiKey: ${{ secrets.BUCKETEER_API_KEY }}
 ```
 
-Add your Bucketeer API access token to your repository secrets:
+Add your Bucketeer API Key to your repository secrets:
 
 1. Go to your repository's **Settings** → **Secrets and variables** → **Actions**
-2. Add a new secret named `BUCKETEER_ACCESS_TOKEN` with your API token value
+2. Add a new secret named `BUCKETEER_API_KEY` with your API Key value
 
-You can create an API token in your Bucketeer dashboard under **Settings** → **API Tokens**.
+You can create an API Key in your Bucketeer dashboard by clicking the **⚙️ Settings icon** → **API Keys** → **New API Key**.
 
 ## Configuration
 
@@ -45,8 +45,8 @@ You can create an API token in your Bucketeer dashboard under **Settings** → *
 
 | Input | Description | Required | Default |
 | ----- | ----------- | -------- | ------- |
-| `accessToken` | Bucketeer API access token with write permissions | ✅ Yes | - |
-| `baseUri` | Bucketeer API base URI | ❌ No | `` |
+| `apiKey` | Bucketeer API Key with write permissions | ✅ Yes | - |
+| `apiEndpoint` | Bucketeer API endpoint URI | ✅ Yes | - |
 | `contextLines` | Number of context lines (0-5, or -1 for no source code) | ❌ No | `2` |
 | `debug` | Enable verbose debug logging | ❌ No | `false` |
 | `allowTags` | Allow scanning of tags (lists tags as branches) | ❌ No | `false` |

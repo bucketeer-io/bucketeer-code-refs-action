@@ -4,11 +4,7 @@ set -euo pipefail
 REPO_OWNER="${GITHUB_REPOSITORY%%/*}"
 REPO_NAME="${GITHUB_REPOSITORY##*/}"
 
-export BUCKETEER_API_KEY="${BUCKETEER_ACCESS_TOKEN}"
-export BUCKETEER_API_ENDPOINT="${BUCKETEER_BASE_URI}"
-export BUCKETEER_REPO_OWNER="${REPO_OWNER}"
-export BUCKETEER_REPO_NAME="${REPO_NAME}"
-export BUCKETEER_REPO_TYPE="github"
+# Set default values if not provided
 export BUCKETEER_CONTEXT_LINES="${BUCKETEER_CONTEXT_LINES:-2}"
 export BUCKETEER_DEBUG="${BUCKETEER_DEBUG:-false}"
 export BUCKETEER_ALLOW_TAGS="${BUCKETEER_ALLOW_TAGS:-false}"
@@ -16,9 +12,9 @@ export BUCKETEER_IGNORE_SERVICE_ERRORS="${BUCKETEER_IGNORE_SERVICE_ERRORS:-false
 export BUCKETEER_DEFAULT_BRANCH="${BUCKETEER_DEFAULT_BRANCH:-main}"
 export BUCKETEER_DRY_RUN="${BUCKETEER_DRY_RUN:-false}"
 
-DIR="${BUCKETEER_DIR:-}"
+# Handle subdirectory for monorepo support
+DIR="${BUCKETEER_SUBDIRECTORY:-}"
 if [ -n "$DIR" ]; then
-  export BUCKETEER_SUBDIRECTORY="$DIR"
   # Create YAML file in subdirectory location for monorepo scanning
   mkdir -p "${GITHUB_WORKSPACE}/${DIR}/.bucketeer"
   cat > "${GITHUB_WORKSPACE}/${DIR}/.bucketeer/coderefs.yaml" <<EOF
@@ -46,6 +42,8 @@ if [ "$BUCKETEER_DEBUG" = "true" ]; then
   echo "API Endpoint: ${BUCKETEER_API_ENDPOINT}"
   echo "Context Lines: ${BUCKETEER_CONTEXT_LINES}"
   echo "Default Branch: ${BUCKETEER_DEFAULT_BRANCH}"
+  echo "Allow Tags: ${BUCKETEER_ALLOW_TAGS}"
+  echo "Ignore Service Errors: ${BUCKETEER_IGNORE_SERVICE_ERRORS}"
   echo "Dry Run: ${BUCKETEER_DRY_RUN}"
   if [ -n "$DIR" ]; then
     echo "Subdirectory: ${DIR}"
