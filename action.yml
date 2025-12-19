@@ -1,0 +1,66 @@
+---
+name: 'Bucketeer Code References'
+description: 'Find references to Bucketeer feature flags in your code'
+author: 'bucketeer-io'
+
+branding:
+  icon: 'search'
+  color: 'blue'
+
+inputs:
+  apiKey:
+    description: 'Bucketeer API Key with write permissions'
+    required: true
+
+  apiEndpoint:
+    description: 'Bucketeer API endpoint URI'
+    required: true
+
+  contextLines:
+    description: 'Number of context lines (0-5, or -1 for no source code)'
+    required: false
+    default: '2'
+
+  debug:
+    description: 'Enable verbose debug logging'
+    required: false
+    default: 'false'
+
+  allowTags:
+    description: 'Allow scanning of tags (lists tags as branches)'
+    required: false
+    default: 'false'
+
+  ignoreServiceErrors:
+    description: 'Exit with code 0 when Bucketeer API is unreachable'
+    required: false
+    default: 'false'
+
+  defaultBranch:
+    description: 'Default branch name'
+    required: false
+    default: 'main'
+
+  dir:
+    description: 'Subdirectory to scan (for monorepos)'
+    required: false
+    default: ''
+
+  dryRun:
+    description: 'Run without sending data to Bucketeer'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    BUCKETEER_API_KEY: ${{ inputs.apiKey }}
+    BUCKETEER_API_ENDPOINT: ${{ inputs.apiEndpoint }}
+    BUCKETEER_CONTEXT_LINES: ${{ inputs.contextLines }}
+    BUCKETEER_DEBUG: ${{ inputs.debug }}
+    BUCKETEER_ALLOW_TAGS: ${{ inputs.allowTags }}
+    BUCKETEER_IGNORE_SERVICE_ERRORS: ${{ inputs.ignoreServiceErrors }}
+    BUCKETEER_DEFAULT_BRANCH: ${{ inputs.defaultBranch }}
+    BUCKETEER_SUBDIRECTORY: ${{ inputs.dir }}
+    BUCKETEER_DRY_RUN: ${{ inputs.dryRun }}

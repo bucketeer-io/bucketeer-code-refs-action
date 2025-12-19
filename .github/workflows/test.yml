@@ -1,0 +1,79 @@
+name: Test Action
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    name: Test Bucketeer Code References Action
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Create test repository
+        run: |
+          mkdir -p test-repo
+          cd test-repo
+          git init
+          git config user.name "Test User"
+          git config user.email "test@example.com"
+
+          cat > index.js << 'EOF'
+          const client = require('@bucketeer/client-sdk');
+
+          if (client.variation('new-dashboard', false)) {
+            console.log('New dashboard enabled');
+          }
+
+          if (client.variation('beta-feature', false)) {
+            console.log('Beta feature enabled');
+          }
+          EOF
+
+          git add .
+          git commit -m "Add sample code"
+
+      - name: Test Action (Dry Run)
+        uses: ./
+        with:
+          apiKey: ${{ secrets.BUCKETEER_ACCESS_TOKEN }}
+          apiEndpoint: ${{ secrets.BUCKETEER_BASE_URI }}
+          debug: true
+          dryRun: true
+
+
+  lint-yaml:
+    runs-on: ubuntu-latest
+    name: Lint YAML Files
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Install yamllint
+        run: |
+          pip install yamllint
+
+      - name: Lint action.yml
+        run: |
+          yamllint action.yml
+
+  docker-build-test:
+    runs-on: ubuntu-latest
+    name: Test Docker Build
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Build Docker image
+        run: |
+          docker build -t bucketeer-code-refs-action:test .
+
+      - name: Test Docker image
+        run: |
+          docker run --rm bucketeer-code-refs-action:test \
+            --version || true
+          echo "Docker image built successfully"
